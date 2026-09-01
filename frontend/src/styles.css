@@ -128,13 +128,16 @@ a { color: inherit; }
   line-height: 1.45;
 }
 
-.parties-page { width: min(100%, 48rem); }
+.parties-page {
+  width: min(100%, 48rem);
+  padding-top: 1rem;
+}
 
 .hemicycle {
   display: block;
   width: 100%;
   height: auto;
-  margin-top: 1rem;
+  margin-top: 0;
 }
 
 .seat-total {
@@ -194,5 +197,6 @@ a { color: inherit; }
 
   .page { padding-top: 2rem; }
   .deputies { padding-top: 0; }
+  .parties-page { padding-top: 0.5rem; }
   .hemicycle { margin-top: 0; }
 }

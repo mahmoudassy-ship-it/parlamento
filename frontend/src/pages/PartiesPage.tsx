@@ -74,7 +74,7 @@ export function PartiesPage() {
 
   return (
     <main className="page parties-page">
-      <h1>Partidos</h1>
+      <h1 className="visually-hidden">Partidos</h1>
       <Hemicycle parties={parties} />
       <p className="seat-total">Congreso · {total} escaños</p>
       <div className="party-list">
