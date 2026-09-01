@@ -31,12 +31,7 @@ function Layout() {
 }
 
 function HomePage() {
-  return (
-    <main className="page home-page">
-      <h1>Votaciones</h1>
-      <p>Próximamente.</p>
-    </main>
-  )
+  return <main aria-label="Inicio" />
 }
 
 const rootRoute = createRootRoute({ component: Layout })
