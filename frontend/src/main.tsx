@@ -9,6 +9,7 @@ import {
   createRouter,
 } from '@tanstack/react-router'
 import { DeputiesPage } from './pages/DeputiesPage'
+import { InitiativesPage } from './pages/InitiativesPage'
 import { PartiesPage } from './pages/PartiesPage'
 import './styles.css'
 
@@ -30,12 +31,8 @@ function Layout() {
   )
 }
 
-function HomePage() {
-  return <main aria-label="Inicio" />
-}
-
 const rootRoute = createRootRoute({ component: Layout })
-const homeRoute = createRoute({ getParentRoute: () => rootRoute, path: '/', component: HomePage })
+const homeRoute = createRoute({ getParentRoute: () => rootRoute, path: '/', component: InitiativesPage })
 const deputiesRoute = createRoute({ getParentRoute: () => rootRoute, path: '/deputies', component: DeputiesPage })
 const partiesRoute = createRoute({ getParentRoute: () => rootRoute, path: '/parties', component: PartiesPage })
 const router = createRouter({ routeTree: rootRoute.addChildren([homeRoute, deputiesRoute, partiesRoute]) })

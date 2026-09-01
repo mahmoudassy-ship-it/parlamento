@@ -40,6 +40,22 @@ const parties = database.prepare(`
   ORDER BY seats DESC, p.code
 `)
 
+const initiatives = database.prepare(`
+  SELECT
+    expediente,
+    type,
+    title,
+    description,
+    author,
+    presented_on,
+    status,
+    official_result,
+    current_stage,
+    official_url
+  FROM legislative_initiatives
+  ORDER BY presented_on DESC, expediente DESC
+`)
+
 const types = {
   '.css': 'text/css; charset=utf-8',
   '.html': 'text/html; charset=utf-8',
@@ -69,6 +85,10 @@ const server = http.createServer((request, response) => {
 
   if (url.pathname === '/api/parties') {
     return send(response, 200, JSON.stringify(parties.all()), types['.json'])
+  }
+
+  if (url.pathname === '/api/initiatives') {
+    return send(response, 200, JSON.stringify(initiatives.all()), types['.json'])
   }
 
   if (url.pathname === '/health') {

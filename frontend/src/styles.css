@@ -70,6 +70,70 @@ a { color: inherit; }
   border: 0;
 }
 
+.initiatives-page {
+  padding-top: 0;
+}
+
+.initiative {
+  padding: 1rem 0;
+  border-bottom: 1px solid #ddd;
+  content-visibility: auto;
+  contain-intrinsic-size: 8rem;
+}
+
+.initiative-meta,
+.initiative-detail {
+  display: flex;
+  align-items: baseline;
+  gap: 0.65rem;
+  color: #666;
+  font-size: 0.78rem;
+}
+
+.initiative-status {
+  color: #555;
+  font-weight: 700;
+}
+
+.status-approved { color: #28743d; }
+.status-rejected,
+.status-lapsed { color: #a62b2b; }
+
+.initiative h2 {
+  margin: 0.4rem 0;
+  font-size: 1rem;
+  line-height: 1.35;
+}
+
+.initiative > p,
+.initiative-stage {
+  margin: 0.4rem 0;
+  color: #555;
+  font-size: 0.88rem;
+  line-height: 1.45;
+}
+
+.initiative-detail {
+  justify-content: space-between;
+}
+
+.initiative-detail span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.initiative-detail a {
+  flex: none;
+}
+
+.initiative-stage {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .deputies { padding-top: 1rem; }
 
 .deputy {

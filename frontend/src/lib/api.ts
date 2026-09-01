@@ -20,6 +20,19 @@ export type Party = {
   share: number
 }
 
+export type Initiative = {
+  expediente: string
+  type: string
+  title: string
+  description: string | null
+  author: string | null
+  presented_on: string | null
+  status: 'approved' | 'rejected' | 'withdrawn' | 'lapsed' | 'merged' | 'closed' | 'pending'
+  official_result: string | null
+  current_stage: string | null
+  official_url: string
+}
+
 export function useApi<T>(url: string) {
   const [data, setData] = useState<T | null>(null)
   const [error, setError] = useState(false)
