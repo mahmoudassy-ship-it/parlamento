@@ -1,12 +1,12 @@
 # Parlamento
 
-A deliberately small, self-hosted web application.
+Small, self-hosted web app.
 
 ## Structure
 
-- `frontend/` — browser application
-- `backend/` — server-side application code when needed
-- `data/` — database schema, migrations, and population scripts
+- `frontend/` — browser app
+- `backend/` — server code
+- `data/` — database schema, migrations, and seed scripts
 
 ## Run
 
@@ -15,4 +15,4 @@ npm install
 npm run dev
 ```
 
-The development server listens on port `3000` on all network interfaces.
+Serves on port `3000`.
