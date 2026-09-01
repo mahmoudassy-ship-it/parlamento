@@ -5,3 +5,4 @@
 - Build and verify one feature at a time.
 - Commit each working milestone using Conventional Commit prefixes.
 - Keep costs at zero: prefer this VPS and free Cloudflare services; pay only when proven needs justify it.
+- Make official Spanish parliamentary data clear and accessible, starting with current snapshots before history.
