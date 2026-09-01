@@ -27,6 +27,19 @@ const deputies = database.prepare(`
   ORDER BY d.name
 `)
 
+const parties = database.prepare(`
+  SELECT
+    p.id,
+    p.code,
+    p.name,
+    COUNT(*) AS seats,
+    ROUND(COUNT(*) * 100.0 / (SELECT COUNT(*) FROM deputies), 1) AS share
+  FROM parties p
+  JOIN deputies d ON d.party_id = p.id
+  GROUP BY p.id
+  ORDER BY seats DESC, p.code
+`)
+
 const types = {
   '.css': 'text/css; charset=utf-8',
   '.html': 'text/html; charset=utf-8',
@@ -52,6 +65,10 @@ const server = http.createServer((request, response) => {
 
   if (url.pathname === '/api/deputies') {
     return send(response, 200, JSON.stringify(deputies.all()), types['.json'])
+  }
+
+  if (url.pathname === '/api/parties') {
+    return send(response, 200, JSON.stringify(parties.all()), types['.json'])
   }
 
   if (url.pathname === '/health') {

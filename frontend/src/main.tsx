@@ -1,92 +1,49 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import ReactDOM from 'react-dom/client'
 import {
+  Link,
   Outlet,
   RouterProvider,
   createRootRoute,
   createRoute,
   createRouter,
 } from '@tanstack/react-router'
+import { DeputiesPage } from './pages/DeputiesPage'
+import { PartiesPage } from './pages/PartiesPage'
 import './styles.css'
 
-const rootRoute = createRootRoute({ component: Outlet })
-
-type Deputy = {
-  id: number
-  name: string
-  party: string
-  parliamentary_group: string
-  image_url: string | null
-  image_page_url: string | null
-  license_name: string | null
-  license_url: string | null
-  attribution: string | null
-}
-
-function displayName(name: string) {
-  return name.includes(',') ? name.split(',').reverse().map((part) => part.trim()).join(' ') : name
-}
-
-function initials(name: string) {
-  return displayName(name)
-    .split(' ')
-    .filter(Boolean)
-    .slice(0, 2)
-    .map((part) => part[0])
-    .join('')
-}
-
-function DeputyList() {
-  const [deputies, setDeputies] = useState<Deputy[]>([])
-  const [error, setError] = useState(false)
-
-  useEffect(() => {
-    fetch('/api/deputies')
-      .then((response) => {
-        if (!response.ok) throw new Error('Unable to load deputies')
-        return response.json()
-      })
-      .then(setDeputies)
-      .catch(() => setError(true))
-  }, [])
-
-  if (error) return <p role="alert">Unable to load deputies.</p>
-  if (!deputies.length) return <p>Loading…</p>
-
+function Layout() {
   return (
-    <main className="deputies">
-      {deputies.map((deputy) => {
-        const photoTitle = [deputy.attribution, deputy.license_name].filter(Boolean).join(' · ')
+    <>
+      <header className="site-header">
+        <nav aria-label="Principal">
+          <Link className="brand" to="/">Parlamento</Link>
+          <div className="nav-links">
+            <Link activeOptions={{ exact: true }} activeProps={{ 'aria-current': 'page' }} to="/">Inicio</Link>
+            <Link activeProps={{ 'aria-current': 'page' }} to="/deputies">Diputados</Link>
+            <Link activeProps={{ 'aria-current': 'page' }} to="/parties">Partidos</Link>
+          </div>
+        </nav>
+      </header>
+      <Outlet />
+    </>
+  )
+}
 
-        return (
-          <article className="deputy" key={deputy.id}>
-            <div className="photo">
-              <span aria-hidden="true">{initials(deputy.name)}</span>
-              {deputy.image_url && deputy.image_page_url && (
-                <a href={deputy.image_page_url} aria-label={`Photo source for ${displayName(deputy.name)}`}>
-                  <img src={deputy.image_url} alt="" loading="lazy" title={photoTitle} />
-                </a>
-              )}
-            </div>
-            <div className="details">
-              <h2>{displayName(deputy.name)}</h2>
-              <p>{deputy.party}</p>
-              <p>{deputy.parliamentary_group}</p>
-            </div>
-          </article>
-        )
-      })}
+function HomePage() {
+  return (
+    <main className="page home-page">
+      <h1>Votaciones</h1>
+      <p>Próximamente.</p>
     </main>
   )
 }
 
-const homeRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: '/',
-  component: DeputyList,
-})
-
-const router = createRouter({ routeTree: rootRoute.addChildren([homeRoute]) })
+const rootRoute = createRootRoute({ component: Layout })
+const homeRoute = createRoute({ getParentRoute: () => rootRoute, path: '/', component: HomePage })
+const deputiesRoute = createRoute({ getParentRoute: () => rootRoute, path: '/deputies', component: DeputiesPage })
+const partiesRoute = createRoute({ getParentRoute: () => rootRoute, path: '/parties', component: PartiesPage })
+const router = createRouter({ routeTree: rootRoute.addChildren([homeRoute, deputiesRoute, partiesRoute]) })
 
 declare module '@tanstack/react-router' {
   interface Register {
