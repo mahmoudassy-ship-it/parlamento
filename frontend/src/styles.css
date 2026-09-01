@@ -1,0 +1,18 @@
+:root {
+  font-family: system-ui, sans-serif;
+  color: #111;
+  background: #fff;
+}
+
+body {
+  display: grid;
+  min-height: 100vh;
+  margin: 0;
+  place-items: center;
+}
+
+h1 {
+  margin: 1rem;
+  font-size: clamp(2rem, 6vw, 4rem);
+  text-align: center;
+}
