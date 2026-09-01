@@ -8,6 +8,7 @@
   "scripts": {
     "build": "npm run build --workspace frontend",
     "data:import:congress": "node --disable-warning=ExperimentalWarning data/scripts/import-congress-deputies.mjs",
+    "data:explain:initiatives": "node --env-file-if-exists=.env --disable-warning=ExperimentalWarning data/scripts/generate-initiative-explanations.mjs",
     "data:import:initiatives": "node --disable-warning=ExperimentalWarning data/scripts/import-legislative-initiatives.mjs",
     "data:import:photos": "node --disable-warning=ExperimentalWarning data/scripts/import-deputy-photos.mjs",
     "data:import:votes": "node --disable-warning=ExperimentalWarning data/scripts/import-votes.mjs",

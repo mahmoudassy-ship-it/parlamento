@@ -31,6 +31,43 @@ export type Initiative = {
   official_result: string | null
   current_stage: string | null
   official_url: string
+  plain_title: string | null
+  plain_summary: string | null
+  explanation_generated_at: string | null
+  latest_vote: VotingEvent | null
+}
+
+export type VotePosition = 'yes' | 'no' | 'abstain' | 'not_voting' | 'mixed'
+
+export type GroupVote = {
+  code: string
+  label: string
+  yes_count: number
+  no_count: number
+  abstain_count: number
+  not_voting_count: number
+  position: VotePosition
+}
+
+export type VotingEvent = {
+  id: number
+  voted_on: string
+  title: string
+  initiative_text: string | null
+  subgroup_title: string | null
+  vote_text: string | null
+  yes_count: number
+  no_count: number
+  abstain_count: number
+  not_voting_count: number
+  source_url: string
+  groups: GroupVote[]
+}
+
+export type InitiativeDetail = {
+  initiative: Initiative
+  documents: { kind: string; url: string }[]
+  votes: VotingEvent[]
 }
 
 export function useApi<T>(url: string) {

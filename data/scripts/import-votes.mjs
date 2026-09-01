@@ -111,9 +111,9 @@ async function download() {
       }
     })
 
-    const expedientes = new Map(listings.flatMap((listing) => listing.links).map((link) => {
+    const voteSources = new Map(listings.flatMap((listing) => listing.links).map((link) => {
       const match = link.sourceUrl.match(/Sesion0*(\d+)\/\d+\/Votacion0*(\d+)\//i)
-      return [match ? `${Number(match[1])}/${Number(match[2])}` : link.sourceUrl, link.expediente]
+      return [match ? `${Number(match[1])}/${Number(match[2])}` : link.sourceUrl, link]
     }))
     let archivesDone = 0
     fs.mkdirSync(cacheDirectory, { recursive: true })
@@ -130,7 +130,8 @@ async function download() {
       const extracted = await Promise.all(directory.files.filter((file) => file.path.toLowerCase().endsWith('.json')).map(async (file) => {
         const record = JSON.parse((await file.buffer()).toString('utf8'))
         const key = `${Number(record.informacion?.sesion)}/${Number(record.informacion?.numeroVotacion)}`
-        return { sourceUrl: `${zipUrl}#${file.path}`, expediente: expedientes.get(key) || null, record }
+        const source = voteSources.get(key)
+        return { sourceUrl: source?.sourceUrl || `${zipUrl}#${file.path}`, expediente: source?.expediente || null, record }
       }))
       archivesDone++
       if (archivesDone % 20 === 0) console.log(`Downloaded ${archivesDone}/${listings.length} session archives…`)

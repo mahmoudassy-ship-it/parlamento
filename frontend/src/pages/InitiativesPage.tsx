@@ -1,14 +1,8 @@
+import { Link } from '@tanstack/react-router'
+import { InitiativeStatus } from '../components/InitiativeStatus'
+import { CompactGroupVotes } from '../components/VoteBreakdown'
 import { type Initiative, useApi } from '../lib/api'
-
-const statusLabels: Record<Initiative['status'], string> = {
-  approved: 'Aprobada',
-  rejected: 'Rechazada',
-  withdrawn: 'Retirada',
-  lapsed: 'Decaída',
-  merged: 'Integrada en otra',
-  closed: 'Cerrada',
-  pending: 'En trámite',
-}
+import { conciseInitiativeTitle } from '../lib/initiative-title'
 
 function formatDate(date: string | null) {
   if (!date) return null
@@ -25,24 +19,32 @@ export function InitiativesPage() {
   return (
     <main className="page initiatives-page">
       <h1 className="visually-hidden">Iniciativas legislativas</h1>
-      {initiatives.map((initiative) => (
-        <article className="initiative" key={initiative.expediente}>
-          <div className="initiative-meta">
-            <span className={`initiative-status status-${initiative.status}`}>{statusLabels[initiative.status]}</span>
-            {initiative.presented_on && <time dateTime={initiative.presented_on}>{formatDate(initiative.presented_on)}</time>}
-            <span>{initiative.expediente.replace(/\/0000$/, '')}</span>
-          </div>
-          <h2>{initiative.title}</h2>
-          {initiative.description && <p>{initiative.description}</p>}
-          <div className="initiative-detail">
-            <span>{initiative.author || initiative.type}</span>
-            <a href={initiative.official_url}>Congreso</a>
-          </div>
-          {initiative.status === 'pending' && initiative.current_stage && (
-            <p className="initiative-stage">{initiative.current_stage}</p>
-          )}
-        </article>
-      ))}
+      {initiatives.map((initiative) => {
+        const summary = initiative.plain_summary || initiative.description
+        return (
+          <Link
+            className="initiative-link"
+            key={initiative.expediente}
+            params={{ slug: initiative.expediente.replaceAll('/', '-') }}
+            to="/iniciativas/$slug"
+          >
+            <article className="initiative">
+              <div className="initiative-copy">
+                <h2>{initiative.plain_title || conciseInitiativeTitle(initiative.title)}</h2>
+                <div className="initiative-meta">
+                  <span>{initiative.author || initiative.type}</span>
+                  {initiative.presented_on && <time dateTime={initiative.presented_on}>{formatDate(initiative.presented_on)}</time>}
+                  <span>{initiative.expediente.replace(/\/0000$/, '')}</span>
+                  {initiative.plain_title && <span aria-label="Texto generado automáticamente a partir de datos oficiales" title="Texto generado automáticamente a partir de datos oficiales">IA</span>}
+                </div>
+                {summary && <p>{summary}</p>}
+              </div>
+              <InitiativeStatus status={initiative.status} />
+              {initiative.latest_vote && <CompactGroupVotes groups={initiative.latest_vote.groups} />}
+            </article>
+          </Link>
+        )
+      })}
     </main>
   )
 }
