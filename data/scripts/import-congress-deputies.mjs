@@ -7,7 +7,7 @@ import { chromium } from 'playwright'
 const catalogUrl = 'https://www.congreso.es/es/opendata/diputados'
 const dataDirectory = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const databasePath = path.join(dataDirectory, 'parlamento.sqlite')
-const migrationPath = path.join(dataDirectory, 'migrations', '001_congress_snapshot.sql')
+const migrationsDirectory = path.join(dataDirectory, 'migrations')
 
 function text(value) {
   return typeof value === 'string' ? value.replace(/\s+/g, ' ').trim() : ''
@@ -62,7 +62,9 @@ function validate(records) {
 function updateDatabase(records, sourceUrl) {
   const importedAt = new Date().toISOString()
   const database = new DatabaseSync(databasePath)
-  database.exec(fs.readFileSync(migrationPath, 'utf8'))
+  for (const migration of fs.readdirSync(migrationsDirectory).filter((file) => file.endsWith('.sql')).sort()) {
+    database.exec(fs.readFileSync(path.join(migrationsDirectory, migration), 'utf8'))
+  }
 
   const insertParty = database.prepare('INSERT INTO parties (code) VALUES (?) ON CONFLICT (code) DO NOTHING')
   const selectParty = database.prepare('SELECT id FROM parties WHERE code = ?')

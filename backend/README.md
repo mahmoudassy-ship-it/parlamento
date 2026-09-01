@@ -1,3 +1,3 @@
 # Backend
 
-Server code.
+Serves the API and built frontend.

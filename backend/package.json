@@ -1,4 +1,8 @@
 {
   "name": "@parlamento/backend",
-  "private": true
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node --disable-warning=ExperimentalWarning src/server.mjs"
+  }
 }

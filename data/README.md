@@ -4,6 +4,7 @@ Current Congress snapshot in SQLite.
 
 ```bash
 npm run data:import:congress
+npm run data:import:photos
 ```
 
-The importer discovers the latest official JSON export, validates it, and atomically updates `parlamento.sqlite`.
+The Congress importer updates members, parties, and groups. The photo importer adds conservatively matched Wikimedia Commons images with attribution and license metadata.

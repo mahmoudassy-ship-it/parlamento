@@ -8,7 +8,9 @@
   "scripts": {
     "build": "npm run build --workspace frontend",
     "data:import:congress": "node --disable-warning=ExperimentalWarning data/scripts/import-congress-deputies.mjs",
-    "dev": "npm run dev --workspace frontend"
+    "data:import:photos": "node --disable-warning=ExperimentalWarning data/scripts/import-deputy-photos.mjs",
+    "dev": "npm run dev --workspace frontend",
+    "start": "npm run start --workspace backend"
   },
   "devDependencies": {
     "playwright": "^1.62.1"
