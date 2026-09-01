@@ -15,6 +15,7 @@ build/
 *.db-*
 *.sqlite
 *.sqlite-*
+data/cache/
 
 # Logs and local tooling
 *.log

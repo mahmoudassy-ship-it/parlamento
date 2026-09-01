@@ -10,10 +10,12 @@
     "data:import:congress": "node --disable-warning=ExperimentalWarning data/scripts/import-congress-deputies.mjs",
     "data:import:initiatives": "node --disable-warning=ExperimentalWarning data/scripts/import-legislative-initiatives.mjs",
     "data:import:photos": "node --disable-warning=ExperimentalWarning data/scripts/import-deputy-photos.mjs",
+    "data:import:votes": "node --disable-warning=ExperimentalWarning data/scripts/import-votes.mjs",
     "dev": "npm run dev --workspace frontend",
     "start": "npm run start --workspace backend"
   },
   "devDependencies": {
-    "playwright": "^1.62.1"
+    "playwright": "^1.62.1",
+    "unzipper": "^0.12.5"
   }
 }
